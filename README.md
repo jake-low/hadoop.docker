@@ -13,3 +13,12 @@ the ecosystem of data processing tools that exists around it.
 Docker is an open source container engine. It allows you to package software
 and distribute it so that it can be run anywhere. Docker containers are
 frequently likened to lightweight virtual machines.
+
+### Usage
+
+Please see the EXAMPLES directory for guidance on how to make use of these
+images.
+
+### Contributing
+
+This project is in active development. Feature requests and/or PRs are welcome!
