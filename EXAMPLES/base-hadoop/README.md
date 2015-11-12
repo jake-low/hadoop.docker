@@ -25,3 +25,9 @@ alternative, you can run a DNS container like
 give each container a `dns` and `dns_search` field.
 
 See the `docker-compose.yaml` file for more information.
+
+### Configuration
+
+All containers mount their configuration files from the `etc/hadoop` directory
+provided. Simply edit the files there to configure your cluster. See the Hadoop
+documentation for specifics.
