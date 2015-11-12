@@ -1,8 +1,6 @@
 namenode:
   image: "hadoop:2.7.0"
   hostname: namenode.localdomain
-  dns: 172.17.42.1
-  dns_search: localdomain
   volumes:
     - ./etc/hadoop:/etc/hadoop
   expose:
@@ -13,8 +11,6 @@ namenode:
 
 datanode:
   image: "hadoop:2.7.0"
-  dns: 172.17.42.1
-  dns_search: localdomain
   volumes:
     - ./etc/hadoop:/etc/hadoop
   expose:
@@ -27,8 +23,6 @@ datanode:
 resourcemanager:
   image: "hadoop:2.7.0"
   hostname: resourcemanager.localdomain
-  dns: 172.17.42.1
-  dns_search: localdomain
   volumes:
     - ./etc/hadoop:/etc/hadoop
   expose:
@@ -39,8 +33,6 @@ resourcemanager:
 
 nodemanager:
   image: "hadoop:2.7.0"
-  dns: 172.17.42.1
-  dns_search: localdomain
   volumes:
     - ./etc/hadoop:/etc/hadoop
   expose:
