@@ -19,7 +19,7 @@ be scaled to whatever number (>0) you wish, independent of one another.
 
 The containers that are spawned expect to be able to resolve each other
 (forward + reverse DNS) over the network. This is best accomplished using the
-new `overlay` networks (ie. run compose with --x-network-driver overlay). As an
+new `overlay` networks (ie. run compose with `--x-network-driver overlay`). As an
 alternative, you can run a DNS container like
 [docker-spy](https://github.com/iverberk/docker-spy) and edit the YAML file to
 give each container a `dns` and `dns_search` field.
