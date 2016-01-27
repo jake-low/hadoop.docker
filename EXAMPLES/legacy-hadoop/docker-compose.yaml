@@ -1,0 +1,43 @@
+namenode:
+  image: "jakelow/hadoop:1.2.1"
+  hostname: namenode
+  container_name: namenode
+  volumes:
+    - ./etc/hadoop:/etc/hadoop
+  expose:
+    - 8020
+    - 50070
+  user: hdfs
+  command: bash -c "hadoop namenode -format; hadoop namenode"
+
+datanode:
+  image: "jakelow/hadoop:1.2.1"
+  volumes:
+    - ./etc/hadoop:/etc/hadoop
+  expose:
+    - 50010
+    - 50020
+    - 50075
+  user: hdfs
+  command: hadoop datanode
+
+jobtracker:
+  image: "jakelow/hadoop:1.2.1"
+  hostname: jobtracker
+  container_name: jobtracker
+  volumes:
+    - ./etc/hadoop:/etc/hadoop
+  expose:
+    - 8032
+    - 8088
+  user: mapred
+  command: hadoop jobtracker
+
+tasktracker:
+  image: "jakelow/hadoop:1.2.1"
+  volumes:
+    - ./etc/hadoop:/etc/hadoop
+  expose:
+    - 50060
+  user: mapred
+  command: hadoop tasktracker
