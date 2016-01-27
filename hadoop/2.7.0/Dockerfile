@@ -8,8 +8,7 @@ RUN yum install -y \
     java-1.8.0-openjdk* \
     krb5-workstation \
     tar \
-    wget \
-    which
+    wget
 
 # download and extract hadoop
 RUN wget -O - \
