@@ -13,16 +13,9 @@ Four containers are defined:
 - `resourcemanager`
 - `nodemanager`
 
-The `namenode` and `resourcemanager` containers are singleton services, so
-their `scale` should always be 1. The `datanode` and `nodemanager` services can
-be scaled to whatever number (>0) you wish, independent of one another.
+The `namenode` and `resourcemanager` containers are singleton services, so their `scale` should always be 1. The `datanode` and `nodemanager` services can be scaled to whatever number (>0) you wish, independent of one another.
 
-The containers that are spawned expect to be able to resolve each other
-(forward + reverse DNS) over the network. This is best accomplished using the
-new `overlay` networks (ie. run compose with `--x-network-driver overlay`). As an
-alternative, you can run a DNS container like
-[docker-spy](https://github.com/iverberk/docker-spy) and edit the YAML file to
-give each container a `dns` and `dns_search` field.
+The containers that are spawned expect to be able to resolve each other (forward + reverse DNS) over the network. This is best accomplished by running compose with `--x-network-driver bridge`. As an alternative, you can run a DNS container like [docker-spy](https://github.com/iverberk/docker-spy) and edit the YAML file to give each container a `dns` and `dns_search` field.
 
 See the `docker-compose.yaml` file for more information.
 
