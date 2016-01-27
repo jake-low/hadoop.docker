@@ -1,6 +1,7 @@
 namenode:
-  image: "hadoop:2.7.0"
-  hostname: namenode.localdomain
+  image: "jakelow/hadoop:2.7.0"
+  hostname: namenode
+  container_name: namenode
   volumes:
     - ./etc/hadoop:/etc/hadoop
   expose:
@@ -10,7 +11,7 @@ namenode:
   command: hdfs namenode
 
 datanode:
-  image: "hadoop:2.7.0"
+  image: "jakelow/hadoop:2.7.0"
   volumes:
     - ./etc/hadoop:/etc/hadoop
   expose:
@@ -21,8 +22,9 @@ datanode:
   command: hdfs datanode
 
 resourcemanager:
-  image: "hadoop:2.7.0"
-  hostname: resourcemanager.localdomain
+  image: "jakelow/hadoop:2.7.0"
+  hostname: resourcemanager
+  container_name: resourcemanager
   volumes:
     - ./etc/hadoop:/etc/hadoop
   expose:
@@ -32,7 +34,7 @@ resourcemanager:
   command: yarn resourcemanager
 
 nodemanager:
-  image: "hadoop:2.7.0"
+  image: "jakelow/hadoop:2.7.0"
   volumes:
     - ./etc/hadoop:/etc/hadoop
   expose:
