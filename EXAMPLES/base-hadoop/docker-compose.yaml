@@ -1,43 +1,38 @@
-namenode:
-  image: "jakelow/hadoop:2.7.0"
-  hostname: namenode
-  container_name: namenode
-  volumes:
-    - ./etc/hadoop:/etc/hadoop
-  expose:
-    - 8020
-    - 50070
-  user: hdfs
-  command: hdfs namenode
+version: "2"
+services:
+  namenode:
+    image: "jakelow/hadoop:2"
+    hostname: namenode
+    volumes:
+      - ./etc/hadoop:/etc/hadoop
+    user: hdfs
+    command: hdfs namenode
 
-datanode:
-  image: "jakelow/hadoop:2.7.0"
-  volumes:
-    - ./etc/hadoop:/etc/hadoop
-  expose:
-    - 50010
-    - 50020
-    - 50075
-  user: hdfs
-  command: hdfs datanode
+  datanode:
+    image: "jakelow/hadoop:2"
+    links:
+      - namenode
+    volumes:
+      - ./etc/hadoop:/etc/hadoop
+    user: hdfs
+    command: hdfs datanode
 
-resourcemanager:
-  image: "jakelow/hadoop:2.7.0"
-  hostname: resourcemanager
-  container_name: resourcemanager
-  volumes:
-    - ./etc/hadoop:/etc/hadoop
-  expose:
-    - 8032
-    - 8088
-  user: yarn
-  command: yarn resourcemanager
+  resourcemanager:
+    image: "jakelow/hadoop:2"
+    hostname: resourcemanager
+    links:
+      - namenode
+    volumes:
+      - ./etc/hadoop:/etc/hadoop
+    user: yarn
+    command: yarn resourcemanager
 
-nodemanager:
-  image: "jakelow/hadoop:2.7.0"
-  volumes:
-    - ./etc/hadoop:/etc/hadoop
-  expose:
-    - 50060
-  user: yarn
-  command: yarn nodemanager
+  nodemanager:
+    image: "jakelow/hadoop:2"
+    links:
+      - resourcemanager
+      - namenode
+    volumes:
+      - ./etc/hadoop:/etc/hadoop
+    user: yarn
+    command: yarn nodemanager
