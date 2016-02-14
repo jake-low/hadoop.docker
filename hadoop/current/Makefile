@@ -36,6 +36,7 @@ buildall:
 	$(MAKE) version=2.7.2 build
 	docker tag $(project):2.7.2 $(project):2.7
 	docker tag $(project):2.7.2 $(project):2
+	docker tag $(project):2.7.2 $(project):latest
 
 build:
 	docker build --build-arg version=$(version) -t $(project):$(version) .
