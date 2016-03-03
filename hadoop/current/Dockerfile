@@ -28,6 +28,8 @@ ENV PATH $JAVA_HOME/bin:$PATH
 ENV HADOOP_CONF_DIR /etc/hadoop
 ENV HADOOP_LIBEXEC_DIR /libexec
 
+RUN apk --update add krb5
+
 USER hdfs
 
 RUN hdfs namenode -format

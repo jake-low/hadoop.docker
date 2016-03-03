@@ -1,0 +1,18 @@
+<configuration>
+    <property>
+        <name>ssl.server.keystore.location</name>
+        <value>/etc/security/ssl/keystore</value>
+    </property>
+    <property>
+        <name>ssl.server.keystore.password</name>
+        <value>changeme</value>
+    </property>
+    <property>
+        <name>ssl.server.truststore.location</name>
+        <value>/etc/security/ssl/truststore</value>
+    </property>
+    <property>
+        <name>ssl.server.truststore.password</name>
+        <value>changeme</value>
+    </property>
+</configuration>
