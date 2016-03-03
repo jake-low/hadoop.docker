@@ -1,64 +1,83 @@
-kdc:
-  image: "kdc:latest"
-  container_name: kdc.localdomain
-  hostname: kdc.localdomain
-  volumes:
-    - ./etc/krb5.conf:/etc/krb5.conf
-    - ./etc/kdc.conf:/etc/kdc.conf
-    - ./etc/security/keytab:/etc/security/keytab
-    - ./var/kerberos/krb5kdc:/var/kerberos/krb5kdc
-  expose:
-    - 88
-  user: root
-  command: krb5kdc -n
+version: "2"
+services:
+  kdc:
+    image: "jakelow/kdc:latest"
+    hostname: kdc.localdomain
+    volumes:
+      - ./etc/krb5.conf:/etc/krb5.conf
+      - ./etc/kdc.conf:/etc/kdc.conf
+      - /dev/urandom:/dev/random
+      - kdb:/var/lib/krb5kdc
+      - keytab:/etc/security/keytab
+    expose:
+      - 88
+    user: root
+    command: krb5kdc -n
 
-namenode:
-  image: "hadoop:2.7.0"
-  container_name: namenode.localdomain
-  hostname: namenode.localdomain
-  volumes:
-    - ./etc/hadoop:/etc/hadoop
-    - ./etc/krb5.conf:/etc/krb5.conf
-    - ./etc/security/keytab:/etc/security/keytab
-  expose:
-    - 8020
-    - 50070
-  user: hdfs
-  command: hdfs namenode
+  namenode:
+    image: "jakelow/hadoop:2"
+    hostname: namenode.localdomain
+    links:
+      - kdc
+    volumes:
+      - ./etc/hadoop:/etc/hadoop
+      - ./etc/krb5.conf:/etc/krb5.conf
+      - keytab:/etc/security/keytab
+    expose:
+      - 8020
+      - 50070
+    user: hdfs
+    command: hdfs namenode
 
-#datanode:
-#  image: "hadoop:2.7.0"
-#  dns: 172.17.42.1
-#  dns_search: localdomain
-#  volumes:
-#    - ./etc/hadoop:/etc/hadoop
-#  expose:
-#    - 50010
-#    - 50020
-#    - 50075
-#  user: hdfs
-#  command: hdfs datanode
-#
-#resourcemanager:
-#  image: "hadoop:2.7.0"
-#  hostname: resourcemanager.localdomain
-#  dns: 172.17.42.1
-#  dns_search: localdomain
-#  volumes:
-#    - ./etc/hadoop:/etc/hadoop
-#  expose:
-#    - 8032
-#    - 8088
-#  user: yarn
-#  command: yarn resourcemanager
-#
-#nodemanager:
-#  image: "hadoop:2.7.0"
-#  dns: 172.17.42.1
-#  dns_search: localdomain
-#  volumes:
-#    - ./etc/hadoop:/etc/hadoop
-#  expose:
-#    - 50060
-#  user: yarn
-#  command: yarn nodemanager
+  datanode:
+    image: "jakelow/hadoop:2"
+    links:
+      - kdc
+      - namenode
+    volumes:
+      - ./etc/hadoop:/etc/hadoop
+      - ./etc/krb5.conf:/etc/krb5.conf
+      - keytab:/etc/security/keytab
+    expose:
+      - 50010
+      - 50020
+      - 50075
+    user: hdfs
+    command: hdfs datanode
+
+  resourcemanager:
+    image: "jakelow/hadoop:2"
+    hostname: resourcemanager.localdomain
+    links:
+      - kdc
+      - namenode
+    volumes:
+      - ./etc/hadoop:/etc/hadoop
+      - ./etc/krb5.conf:/etc/krb5.conf
+      - keytab:/etc/security/keytab
+    expose:
+      - 8032
+      - 8088
+    user: yarn
+    command: bash -c "kinit -kt /etc/security/keytab/yarn.keytab yarn/resourcemanager.localdomain; yarn resourcemanager"
+
+  nodemanager:
+    image: "jakelow/hadoop:2"
+    links:
+      - kdc
+      - resourcemanager
+      - namenode
+    volumes:
+      - ./etc/hadoop:/etc/hadoop
+      - ./etc/krb5.conf:/etc/krb5.conf
+      - keytab:/etc/security/keytab
+    expose:
+      - 50060
+    user: yarn
+    command: bash -c "kinit -kt /etc/security/keytab/yarn.keytab yarn/nodemanager.localdomain; yarn nodemanager"
+
+volumes:
+  kdb:
+    driver: local
+  keytab:
+    driver: local

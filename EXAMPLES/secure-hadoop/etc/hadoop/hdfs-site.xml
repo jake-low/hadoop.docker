@@ -9,22 +9,54 @@
     </property>
     <property>
         <name>dfs.webhdfs.enabled</name>
-        <value>true</value>
+        <value>false</value>
     </property>
     <property>
         <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
         <value>false</value>
     </property>
+
     <property>
         <name>dfs.namenode.keytab.file</name>
-        <value>/etc/security/keytab/nn.service.keytab</value>
+        <value>/etc/security/keytab/hdfs.keytab</value>
     </property>
     <property>
         <name>dfs.namenode.kerberos.principal</name>
-        <value>nn/_HOST@LOCALDOMAIN</value>
+        <value>hdfs/namenode.localdomain@LOCALDOMAIN</value>
+    </property>
+
+    <property>
+        <name>dfs.http.policy</name>
+        <value>HTTPS_ONLY</value>
+    </property>
+    <property>
+        <name>dfs.web.authentication.kerberos.keytab</name>
+        <value>/etc/security/keytab/hdfs.keytab</value>
     </property>
     <property>
         <name>dfs.web.authentication.kerberos.principal</name>
         <value>HTTP/_HOST@LOCALDOMAIN</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.keytab.file</name>
+        <value>/etc/security/keytab/hdfs.keytab</value>
+    </property>
+    <property>
+        <name>dfs.datanode.kerberos.principal</name>
+        <value>hdfs/datanode.localdomain@LOCALDOMAIN</value>
+    </property>
+
+    <property>
+        <name>dfs.encrypt.data.transfer</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.data.transfer.protection</name>
+        <value>privacy</value>
+    </property>
+    <property>
+        <name>dfs.encrypt.data.transfer.cipher.suites</name>
+        <value>AES/CTR/NoPadding</value>
     </property>
 </configuration>
