@@ -28,5 +28,3 @@ After that, add some Kerberos principals. In this example, you'll need:
 You should export the `nodemanager` and `resourcemanager` principals into a `yarn.keytab` and the `namenode` and `datanode` principals into an `hdfs.keytab`, both in `/etc/security/keytab`. This is a volume that the other containers will mount when they start. This is how we provide them with access to the needed keys.
 
 You'll also need to generate SSL certificates. See `create-ssl-cert.sh` for an example of how to do this. Each host needs its own certs.
-
-- 
