@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.5
 MAINTAINER Jake Low <jake.low@isilon.com>
 
 USER root
